@@ -274,27 +274,17 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
   .ty-mascot-section{max-width:260px;}
   .ty-mascot{max-height:44vh;}
   /* Bubble: keeps right-bottom position, adjusted for smaller screen */
-  .speech-bubble{
-    right:-120px;
-    bottom:10%;
-    max-width:148px;
-    padding:10px 13px;
-  }
-  .sb-text{font-size:.82rem;}
+  /* Hide bubble on mobile — no horizontal space */
+  .speech-bubble{display:none;}
+  /* Remove overflow:visible since bubble is hidden — prevents any leak */
+  .ty-mascot-section{overflow:hidden;}
   footer{padding:36px 22px 22px;}.ft-grid{grid-template-columns:1fr;gap:28px;}.ft-bottom{flex-direction:column;align-items:flex-start;gap:10px;}.ft-legal{gap:12px;}
 }
 @media(max-width:480px){
   .ty-title{font-size:2.6rem;}
   .ty-mascot-section{max-width:210px;}
   .ty-mascot{max-height:38vh;}
-  /* On very small screens, push bubble further right so it doesn't eat into mascot */
-  .speech-bubble{
-    right:-100px;
-    bottom:8%;
-    max-width:134px;
-    padding:9px 11px;
-  }
-  .sb-text{font-size:.76rem;}
+  /* Speech bubble already hidden at 860px */
   .ty-actions{flex-direction:column;width:100%;}
   .btn-gold,.btn-outline{justify-content:center;}
   .ft-legal a{font-size:.56rem;}
@@ -435,7 +425,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
       <p class="ft-col-title">Contact</p>
       <div class="ft-links">
         <a href="tel:+17819057237"><span class="fi">📞</span>(781) 905-7237</a>
-        <a href="mailto:anaablemes1@gmail.com"><span class="fi">✉</span>anaablemes1@gmail.com</a>
+        <a href="mailto:analemescleaning@gmail.com"><span class="fi">✉</span>analemescleaning@gmail.com</a>
         <a href="https://instagram.com/analemescleaning" target="_blank" rel="noopener"><span class="fi">📸</span>@analemescleaning</a>
       </div>
     </div>
@@ -448,7 +438,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
         <a href="tel:+17819057237">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.87a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.38a16 16 0 006.47 6.47l1.74-1.74a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call Us
         </a>
-        <a href="mailto:anaablemes1@gmail.com">
+        <a href="mailto:analemescleaning@gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email Us
         </a>
       </div>

@@ -111,41 +111,95 @@ nav.nav-hidden{transform:translateY(-100%);opacity:0;pointer-events:none;}
 .step-sub{font-size:.78rem;color:var(--muted);font-weight:300;margin-bottom:36px;}
 
 /* ── FORM FIELDS ────────────────────────────────────────────── */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .form-grid.single{grid-template-columns:1fr;}
 .form-grid.triple{grid-template-columns:1fr 1fr 1fr;}
-.fg{display:flex;flex-direction:column;gap:7px;}
+.fg{display:flex;flex-direction:column;gap:6px;}
 .fg.full{grid-column:1/-1;}
+
+/* Label */
 .fg label{
-  font-size:.62rem;letter-spacing:2px;text-transform:uppercase;
+  font-size:.6rem;letter-spacing:2.5px;text-transform:uppercase;
   color:var(--gold);font-weight:600;
   display:flex;align-items:center;gap:6px;
+  padding-left:2px;
 }
 .req{color:var(--red);font-size:.7rem;}
-.fg input,.fg select,.fg textarea{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(201,168,76,.2);
-  padding:13px 16px;color:var(--white);
-  font-family:'Montserrat',sans-serif;font-size:.84rem;
-  border-radius:var(--r);transition:border-color .3s,box-shadow .3s;outline:none;
-  -webkit-appearance:none;appearance:none;width:100%;
+
+/* Icon-input wrapper */
+.fi-wrap{
+  position:relative;
+  display:flex;align-items:center;
 }
+.fi-wrap .fi-icon{
+  position:absolute;left:16px;
+  width:16px;height:16px;
+  color:rgba(201,168,76,.45);
+  pointer-events:none;
+  flex-shrink:0;
+  transition:color .3s;
+}
+.fi-wrap:focus-within .fi-icon{color:var(--gold);}
+
+/* All inputs & selects inside fi-wrap */
+.fi-wrap input,
+.fi-wrap select{padding-left:44px !important;}
+
+/* Base input / select / textarea styles */
+.fg input,.fg select,.fg textarea{
+  background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(201,168,76,.18);
+  padding:14px 16px;
+  color:var(--white);
+  font-family:'Montserrat',sans-serif;font-size:.85rem;
+  border-radius:12px;
+  transition:border-color .3s,box-shadow .3s,background .3s;
+  outline:none;
+  -webkit-appearance:none;appearance:none;
+  width:100%;
+  line-height:1.4;
+}
+.fg input::placeholder,.fg textarea::placeholder{
+  color:rgba(245,240,232,.25);
+}
+
+/* Select arrow */
 .fg select{
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-  padding-right:40px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+  padding-right:44px;cursor:pointer;
 }
 .fg select option{background:var(--dark2);color:var(--white);}
-.fg input:focus,.fg select:focus,.fg textarea:focus{
-  border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);
-}
-.fg input.error,.fg select.error{border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(224,82,82,.12)!important;}
-.fg input.valid,.fg select.valid{border-color:var(--green)!important;}
-.err-msg{font-size:.65rem;color:var(--red);margin-top:2px;display:none;}
-.err-msg.show{display:block;}
 
-/* Phone auto-format display */
-.field-hint{font-size:.62rem;color:var(--muted);margin-top:3px;}
+/* Focus state */
+.fg input:focus,.fg select:focus,.fg textarea:focus{
+  border-color:var(--gold);
+  background:rgba(201,168,76,.04);
+  box-shadow:0 0 0 4px rgba(201,168,76,.08);
+}
+/* Validation states */
+.fg input.error,.fg select.error{
+  border-color:var(--red)!important;
+  box-shadow:0 0 0 4px rgba(224,82,82,.08)!important;
+}
+.fg input.valid,.fg select.valid{
+  border-color:var(--green)!important;
+  box-shadow:0 0 0 4px rgba(76,175,125,.06)!important;
+}
+/* Valid icon inside fi-wrap */
+.fi-wrap .check-icon{
+  position:absolute;right:14px;
+  width:15px;height:15px;
+  color:var(--green);
+  opacity:0;transition:opacity .3s;
+  pointer-events:none;flex-shrink:0;
+}
+.fg input.valid ~ .check-icon,
+.fg select.valid ~ .check-icon{opacity:1;}
+
+.err-msg{font-size:.63rem;color:var(--red);margin-top:1px;display:none;padding-left:4px;}
+.err-msg.show{display:block;}
+.field-hint{font-size:.6rem;color:var(--muted);margin-top:1px;padding-left:4px;}
 
 /* ── CONTACT PREFERENCE (pill buttons) ──────────────────────── */
 .pill-group{display:flex;gap:10px;flex-wrap:wrap;}
@@ -321,6 +375,16 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
 .ft-sep{color:rgba(201,168,76,.2);font-size:.5rem;}
 
 /* ── RESPONSIVE ─────────────────────────────────────────────── */
+/* Summary grid — responsive */
+.summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px 24px;font-size:.78rem;color:var(--muted);
+  font-weight:300;line-height:1.7;
+}
+
+/* Select inside fi-wrap — adjust arrow position */
+.fi-wrap select{padding-right:44px;}
+
 @media(max-width:1100px){
   nav{padding:12px 32px;}
   nav.scrolled{padding:8px 32px;}
@@ -329,17 +393,31 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
   .cookie{padding:13px 40px;}
 }
 @media(max-width:860px){
+  .summary-grid{grid-template-columns:1fr;gap:6px;}
   nav{padding:10px 18px;}
   .nav-links,.nav-cta{display:none;}
   .hamburger{display:flex;}
   .nav-logo{height:44px;}
-  .quote-hero{padding:100px 22px 48px;}
-  .progress-wrap{padding:36px 22px 0;}
-  .form-outer{padding:36px 22px 64px;}
-  .form-grid{grid-template-columns:1fr;}
+  .quote-hero{padding:100px 22px 40px;}
+  .progress-wrap{padding:28px 20px 0;}
+  .form-outer{padding:28px 20px 60px;}
+  /* Mobile: single column, more compact */
+  .form-grid{grid-template-columns:1fr;gap:14px;}
   .form-grid.triple{grid-template-columns:1fr 1fr;}
-  .form-nav{flex-direction:column-reverse;}
-  .btn-prev{width:100%;justify-content:center;}
+  .fg{gap:5px;}
+  .fg input,.fg select,.fg textarea{
+    padding:15px 16px;
+    font-size:.9rem; /* slightly bigger tap targets */
+  }
+  .fi-wrap input,.fi-wrap select{padding-left:44px!important;}
+  /* Pill buttons: 3 across on mobile */
+  .pill-group{gap:8px;}
+  .pill-btn{padding:12px 16px;font-size:.7rem;flex:1;justify-content:center;}
+  /* Yes/No bigger tap area */
+  .yn-btn{padding:16px;font-size:.75rem;}
+  /* Nav buttons stack */
+  .form-nav{flex-direction:column-reverse;gap:10px;}
+  .btn-prev,.btn-next,.btn-submit{width:100%;justify-content:center;padding:16px;}
   footer{padding:36px 22px 22px;}
   .ft-grid{grid-template-columns:1fr;gap:28px;}
   .ft-bottom{flex-direction:column;align-items:flex-start;gap:10px;}
@@ -348,12 +426,15 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
   .cookie-btns{width:100%;justify-content:flex-end;}
 }
 @media(max-width:480px){
-  .form-grid.triple{grid-template-columns:1fr;}
-  .pill-group{flex-direction:column;}
-  .pill-btn{justify-content:center;}
+  .form-grid.triple{grid-template-columns:1fr 1fr;}
+  .pill-group{gap:6px;}
+  .pill-btn{font-size:.67rem;padding:11px 12px;}
   .yn-group{gap:8px;}
   .ft-legal{gap:10px;}
   .ft-legal a{font-size:.56rem;}
+  /* Progress labels hidden on very small screens */
+  .ps-label{display:none;}
+  .ps-circle{width:34px;height:34px;font-size:.65rem;}
 }
 </style>
 </head>
@@ -437,28 +518,48 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
     <div class="form-grid">
       <div class="fg">
         <label>First Name <span class="req">*</span></label>
-        <input type="text" id="firstName" placeholder="Ana" autocomplete="given-name">
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" id="firstName" placeholder="Ana" autocomplete="given-name">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <span class="err-msg" id="err-firstName">Please enter your first name.</span>
       </div>
       <div class="fg">
         <label>Last Name <span class="req">*</span></label>
-        <input type="text" id="lastName" placeholder="Lemes" autocomplete="family-name">
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" id="lastName" placeholder="Lemes" autocomplete="family-name">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <span class="err-msg" id="err-lastName">Please enter your last name.</span>
       </div>
       <div class="fg">
         <label>Phone Number <span class="req">*</span></label>
-        <input type="tel" id="phone" placeholder="(781) 000-0000" autocomplete="tel" maxlength="14">
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.87a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.38a16 16 0 006.47 6.47l1.74-1.74a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <input type="tel" id="phone" placeholder="(781) 000-0000" autocomplete="tel" maxlength="14">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <span class="field-hint">US format: (XXX) XXX-XXXX</span>
         <span class="err-msg" id="err-phone">Please enter a valid US phone number.</span>
       </div>
       <div class="fg">
         <label>Email Address <span class="req">*</span></label>
-        <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <span class="err-msg" id="err-email">Please enter a valid email address.</span>
       </div>
       <div class="fg full">
         <label>Zip Code <span class="req">*</span></label>
-        <input type="text" id="zipCode" placeholder="02101" maxlength="5" style="max-width:200px">
+        <div class="fi-wrap" style="max-width:220px;">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <input type="text" id="zipCode" placeholder="02101" maxlength="5">
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <span class="field-hint">5-digit US zip code</span>
         <span class="err-msg" id="err-zipCode">Please enter a valid 5-digit zip code.</span>
       </div>
@@ -503,55 +604,53 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
     <div class="form-grid">
       <div class="fg full">
         <label>Service Type <span class="req">*</span></label>
-        <select id="serviceType">
-          <option value="" disabled selected>Select a service…</option>
-          <option>House Cleaning</option>
-          <option>Apartment Cleaning</option>
-          <option>Office Cleaning</option>
-          <option>Deep Cleaning</option>
-          <option>Move In / Move Out</option>
-          <option>Post-Construction Cleaning</option>
-          <option>Regular Cleaning (Recurring)</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <select id="serviceType">
+            <option value="" disabled selected>Select a service…</option>
+            <option>House Cleaning</option>
+            <option>Apartment Cleaning</option>
+            <option>Office Cleaning</option>
+            <option>Deep Cleaning</option>
+            <option>Move In / Move Out</option>
+            <option>Post-Construction Cleaning</option>
+            <option>Regular Cleaning (Recurring)</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-serviceType">Please select a service type.</span>
       </div>
 
       <div class="fg">
         <label>Number of Floors <span class="req">*</span></label>
-        <select id="floors">
-          <option value="" disabled selected>Select…</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4+</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+          <select id="floors">
+            <option value="" disabled selected>Select…</option>
+            <option>1</option><option>2</option><option>3</option><option>4+</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-floors">Please select number of floors.</span>
       </div>
       <div class="fg">
         <label>Bedrooms <span class="req">*</span></label>
-        <select id="bedrooms">
-          <option value="" disabled selected>Select…</option>
-          <option>Studio</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5+</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4v16"/><path d="M22 4v16"/><path d="M2 8h20"/><path d="M2 16h20"/><rect x="6" y="8" width="12" height="8" rx="1"/></svg>
+          <select id="bedrooms">
+            <option value="" disabled selected>Select…</option>
+            <option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-bedrooms">Please select number of bedrooms.</span>
       </div>
       <div class="fg">
         <label>Bathrooms <span class="req">*</span></label>
-        <select id="bathrooms">
-          <option value="" disabled selected>Select…</option>
-          <option>1</option>
-          <option>1.5</option>
-          <option>2</option>
-          <option>2.5</option>
-          <option>3</option>
-          <option>3.5</option>
-          <option>4+</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h20"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6"/><path d="M4 12V5a2 2 0 012-2h2a2 2 0 012 2v7"/></svg>
+          <select id="bathrooms">
+            <option value="" disabled selected>Select…</option>
+            <option>1</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3.5</option><option>4+</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-bathrooms">Please select number of bathrooms.</span>
       </div>
 
@@ -567,18 +666,24 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
 
       <div class="fg">
         <label>Cleaning Frequency <span class="req">*</span></label>
-        <select id="frequency">
-          <option value="" disabled selected>Select…</option>
-          <option>One-Time / Deep Cleaning</option>
-          <option>Weekly</option>
-          <option>Biweekly</option>
-          <option>Monthly</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          <select id="frequency">
+            <option value="" disabled selected>Select…</option>
+            <option>One-Time / Deep Cleaning</option>
+            <option>Weekly</option>
+            <option>Biweekly</option>
+            <option>Monthly</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-frequency">Please select a frequency.</span>
       </div>
       <div class="fg">
         <label>Preferred Date <span class="req">*</span></label>
-        <input type="text" id="prefDate" placeholder="Select a date…" readonly autocomplete="off">
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <input type="text" id="prefDate" placeholder="Select a date…" readonly autocomplete="off">
+        </div>
         <span class="err-msg" id="err-prefDate">Please select a preferred date.</span>
       </div>
     </div>
@@ -603,30 +708,33 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
     <div class="form-grid single">
       <div class="fg">
         <label>How Did You Hear About Us? <span class="req">*</span></label>
-        <select id="hearAbout">
-          <option value="" disabled selected>Select…</option>
-          <option>Google</option>
-          <option>Instagram</option>
-          <option>Facebook</option>
-          <option>Yelp</option>
-          <option>Thumbtack</option>
-          <option>Referred by a Friend</option>
-          <option>Email</option>
-          <option>Other</option>
-        </select>
+        <div class="fi-wrap">
+          <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <select id="hearAbout">
+            <option value="" disabled selected>Select…</option>
+            <option>Google</option>
+            <option>Instagram</option>
+            <option>Facebook</option>
+            <option>Yelp</option>
+            <option>Thumbtack</option>
+            <option>Referred by a Friend</option>
+            <option>Email</option>
+            <option>Other</option>
+          </select>
+        </div>
         <span class="err-msg" id="err-hearAbout">Please let us know how you heard about us.</span>
       </div>
 
       <div class="fg">
         <label>Additional Notes <span style="color:var(--muted);font-size:.58rem;letter-spacing:1px;">(optional)</span></label>
-        <textarea id="notes" rows="4" placeholder="Any special requests, access instructions, areas of focus, or anything else we should know…" style="resize:vertical;min-height:110px;"></textarea>
+        <textarea id="notes" rows="4" placeholder="Any special requests, access instructions, areas of focus, or anything else we should know…" style="resize:vertical;min-height:110px;border-radius:12px;"></textarea>
       </div>
     </div>
 
     <!-- SUMMARY BOX -->
     <div style="background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:24px;margin-top:28px;">
       <p style="font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600;">✦ Your Request Summary</p>
-      <div id="summaryContent" style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:.78rem;color:var(--muted);font-weight:300;line-height:1.7;"></div>
+      <div id="summaryContent" class="summary-grid"></div>
     </div>
 
     <div class="form-nav">
@@ -654,7 +762,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
       <p class="ft-col-title">Contact</p>
       <div class="ft-links">
         <a href="tel:+17819057237"><span class="fi">📞</span>(781) 905-7237</a>
-        <a href="mailto:anaablemes1@gmail.com"><span class="fi">✉</span>anaablemes1@gmail.com</a>
+        <a href="mailto:analemescleaning@gmail.com"><span class="fi">✉</span>analemescleaning@gmail.com</a>
         <a href="https://instagram.com/analemescleaning" target="_blank"><span class="fi">📸</span>@analemescleaning</a>
       </div>
     </div>
@@ -663,7 +771,7 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
       <div class="ft-social">
         <a href="https://instagram.com/analemescleaning" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>Instagram</a>
         <a href="tel:+17819057237"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.87a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.38a16 16 0 006.47 6.47l1.74-1.74a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call Us</a>
-        <a href="mailto:anaablemes1@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email Us</a>
+        <a href="mailto:analemescleaning@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email Us</a>
       </div>
     </div>
   </div>
