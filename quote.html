@@ -2,6 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+  <!-- End Google Tag Manager -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Free Quote – Ana Lemes Cleaning</title>
 <meta name="description" content="Request your free cleaning quote from Ana Lemes Cleaning. Serving Massachusetts.">
@@ -16,6 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 /* ── RESET ──────────────────────────────────────────────────── */
 :root{
@@ -446,6 +454,10 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <div class="sending-overlay" id="sendingOverlay">
   <div class="spinner"></div>
@@ -793,11 +805,21 @@ footer{background:var(--dark2);border-top:1px solid rgba(201,168,76,.12);padding
 </footer>
 
 <script>
-// ── EmailJS — configurar depois da aprovação da cliente ────────
-// const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-// const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-// const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-// emailjs.init(EMAILJS_PUBLIC_KEY);
+// ── dataLayer (GTM) ───────────────────────────────────────────
+window.dataLayer = window.dataLayer || [];
+
+// Fire click_to_estimate if user came directly to quote page
+// (covers direct URL access, not just homepage button)
+window.dataLayer.push({
+  event: 'click_to_estimate',
+  location: 'quote_page_load'
+});
+
+// ── EmailJS ────────────────────────────────────────────────────
+const EMAILJS_SERVICE_ID  = 'service_z49k8zt';
+const EMAILJS_TEMPLATE_ID = 'template_wpreq2s';
+const EMAILJS_PUBLIC_KEY  = 'By7e_229SWohVqohf';
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 // ── Flatpickr date picker ──────────────────────────────────────
 const today = new Date();
@@ -939,6 +961,16 @@ function goToStep(n) {
   document.getElementById('step' + currentStep).classList.remove('active');
   document.getElementById('step' + n).classList.add('active');
 
+  // ── GA/GTM custom events ───────────────────────────────────
+  if (n === 2) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'form_step2',
+      form_name: 'free_estimate',
+      step: 2
+    });
+  }
+
   // Progress update
   for (let i = 1; i <= 3; i++) {
     const ps = document.getElementById('ps' + i);
@@ -1004,19 +1036,43 @@ function buildSummary() {
 }
 
 // ── Submit ─────────────────────────────────────────────────────
-function submitForm() {
+async function submitForm() {
   if (!validateStep(3)) return;
 
-  const firstName = (document.getElementById('firstName')?.value || '').trim();
+  const g = id => (document.getElementById(id)?.value || '').trim();
 
-  // Show sending overlay briefly for UX feel
+  const params = {
+    from_name:    g('firstName') + ' ' + g('lastName'),
+    first_name:   g('firstName'),
+    last_name:    g('lastName'),
+    phone:        g('phone'),
+    email:        g('email'),
+    zip_code:     g('zipCode'),
+    contact_pref: g('contactPref'),
+    service_type: g('serviceType'),
+    floors:       g('floors'),
+    bedrooms:     g('bedrooms'),
+    bathrooms:    g('bathrooms'),
+    pets:         g('pets'),
+    frequency:    g('frequency'),
+    pref_date:    g('prefDate'),
+    hear_about:   g('hearAbout'),
+    notes:        g('notes') || 'None',
+    reply_to:     g('email'),
+  };
+
+  // Show sending overlay
   document.getElementById('sendingOverlay').classList.add('show');
 
-  // Redirect to Thank You page after short delay
-  // TODO: add EmailJS send here after client approval
-  setTimeout(() => {
-    window.location.href = 'thankyou.html?name=' + encodeURIComponent(firstName);
-  }, 800);
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+    // Success → redirect to Thank You page
+    window.location.href = 'thankyou.html?name=' + encodeURIComponent(g('firstName'));
+  } catch (err) {
+    document.getElementById('sendingOverlay').classList.remove('show');
+    console.error('EmailJS error:', err);
+    alert('Something went wrong sending your request.\nPlease call us at (781) 905-7237 or email analemescleaning@gmail.com');
+  }
 }
 </script>
 </body>
